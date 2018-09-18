@@ -1,0 +1,108 @@
+<html>
+<head>
+    <title>Welcome to Vue</title>
+    <script src="https://unpkg.com/vue"></script>
+    <script src="https://unpkg.com/jquery"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+</head>
+<body>
+<div id="app">
+    <div class="well">
+        <form>
+            <div class="form-group">
+                <label for="firstname">First name</label>
+                <input type="text" id="firstname" class="form-control" placeholder="firstname"
+                       v-model="formData.firstName">
+            </div>
+            <div class="form-group">
+                <label for="lastname">Last name</label>
+                <input type="text" id="lastname" class="form-control" placeholder="lastname"
+                       v-model="formData.lastName">
+            </div>
+            <div class="form-group">
+                <label for="url">Blog</label>
+                <input type="text" id="url" class="form-control" placeholder="url" v-model="formData.url">
+            </div>
+            <div class="form-group">
+                <label for="badge">Pesonal badge (html)</label>
+                <textarea type="text" id="badge" class="form-control" cols="10" rows="3"
+                          v-model="formData.badge"></textarea>
+            </div>
+            <div class="form-group">
+                <label for="book">Favourite book ISBN (like 0201558025)</label>
+                <input type="text" id="book" class="form-control" placeholder="book" v-model="formData.booksIsbn">
+            </div>
+            <div class="form-group">
+                <label for="book">Technologies</label>
+                <input type="text" id="techno" class="form-control" placeholder="techno"
+                       v-model="formData.technologies">
+            </div>
+
+            <button type="submit" class="btn btn-default" v-on:click.prevent="submit">Submit</button>
+        </form>
+    </div>
+
+    <div class="well" v-if="showDetails">
+        <h3>Dear {{fullName}}! </h3>
+        <p v-html="formData.badge"></p>
+        <p>My Blog is <a v-bind:href="formData.url">here</a></p>
+        <p>
+        <h4>My favourite book is '{{bookDetails.title}}'</h4>
+        <img v-bind:src="bookDetails.coverUrl" alt="">
+        </p>
+        <p>
+            My technologies
+        <ul>
+            <li v-for="tech in techItems">{{tech}}</li>
+        </ul>
+        </p>
+    </div>
+    <div v-else class="well">Please submit the form</div>
+</div>
+<script>
+    new Vue({
+        el: "#app",
+        data: {
+            formData: {
+                firstName: '',
+                lastName: '',
+                url: 'http://www.',
+                badge: '',
+                booksIsbn: '',
+                technologies: ''
+            },
+            showDetails: false,
+            bookDetails: {
+                title: '',
+                coverUrl: ''
+            }
+        },
+        computed: {
+            fullName() {
+                return this.formData.firstName + ' ' + this.formData.lastName;
+            },
+            techItems(){
+                return this.formData.technologies.split(',')
+            }
+        },
+        methods: {
+            submit(){
+                this.showDetails = true;
+            }
+        },
+        watch: {
+            "formData.booksIsbn": function(){
+                const url = `http://crossorigin.me/http://openlibrary.org/api/books?bibkeys=ISBN:${this.formData.booksIsbn}&format=json&jscmd=data`;
+
+                $.getJSON(url, data=>{
+                    this.bookDetails.title = data[`ISBN:${this.formData.booksIsbn}`].title;
+                    this.bookDetails.coverUrl = data[`ISBN:${this.formData.booksIsbn}`].cover.large;
+                })
+
+            }
+        }
+    })
+</script>
+</body>
+</html>

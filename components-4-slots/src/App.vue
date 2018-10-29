@@ -1,10 +1,10 @@
 <template>
   <div>
     <my-header>
-      <h1>Communication between components in Vue.js</h1>
-      <span>{{secondPart}}</span>
+      <h1>Communication between components in vue.js</h1>
       <h2 slot="subtitle">Slots</h2>
-      <span slot="subtitle">Slots Second Part</span>
+      <span>Second part</span>
+      <span slot="subtitle">Slots - second part</span>
     </my-header>
     <div class="container">
       <products></products>

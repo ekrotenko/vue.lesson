@@ -1,15 +1,13 @@
 <template>
   <div>
     <div>
-      <slot>
-
-      </slot>
+      <slot></slot>
     </div>
     <div>
-      <slot name="subtitle"></slot>
+      <slot name="subtitle">Default subtitle</slot>
     </div>
     <div>
-      <slot name="copyright">Eugene Inc.</slot>
+      <slot name="copyright">Eugene K, Inc.</slot>
     </div>
   </div>
 

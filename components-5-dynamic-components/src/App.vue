@@ -8,8 +8,13 @@
     </my-header>
     <div class="container">
       <products></products>
-      <product-details></product-details>
-      <product-add></product-add>
+      <div>
+        <span @click="mode=(mode ==='view'?'add':'view')">Mode: {{mode}}</span>
+        <keep-alive>
+          <component :is="componentName"></component>
+        </keep-alive>
+
+      </div>
     </div>
   </div>
 </template>
@@ -25,6 +30,11 @@
       return {
         secondPart: 'Second Part',
         mode: "view"
+      }
+    },
+    computed: {
+      componentName(){
+        return this.mode==='view'? 'ProductDetails':'ProductAdd'
       }
     },
     components: {

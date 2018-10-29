@@ -2,7 +2,8 @@
   <div>
     <my-header></my-header>
     <div class="container">
-      <products @viewDetailsFromList="viewDetails"></products><product-details v-bind:product="selectedProduct"></product-details>
+      <products @viewDetailsFromList="viewDetails"></products>
+      <product-details v-bind:product="selectedProduct"></product-details>
     </div>
   </div>
 </template>
